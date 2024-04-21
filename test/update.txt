@@ -1,0 +1,193 @@
+<?php
+include("../dbconnect.php");
+extract($_POST);
+session_start();
+?>
+
+<?php
+include("../dbconnect.php"); // Include your database connection
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $id = $_POST["id"];
+    $name = $_POST["name"];
+    $reg = $_POST["reg"];
+    $gender = $_POST["gender"];
+    $age = $_POST["age"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $dept = $_POST["dept"];
+    $hname = $_POST["hname"];
+    $room = $_POST["room"];
+
+    $query = "UPDATE stud SET name = '$name', reg = '$reg', gender = '$gender', 
+              age = '$age', email = '$email', phone = '$phone', dept = '$dept', 
+              hname = '$hname', room = '$room' WHERE id = '$id'";
+
+    if (mysqli_query($connect, $query)) {
+        header("Location: ../admin/stud_detail.php"); // Redirect back to the list page
+        exit();
+    } else {
+        echo "Error: " . mysqli_error($connect);
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"])) {
+    $id = $_GET["id"];
+    
+    $query = "SELECT * FROM stud WHERE id = '$id'";
+    $result = mysqli_query($connect, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+?>
+
+<!DOCTYPE html>
+<!-- saved from url=(0054)https://www.bootstrapdash.com/demo/purple-admin-free/# -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Required meta tags -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>stud_details</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="./include/materialdesignicons.min.css">
+    <link rel="stylesheet" href="./include/vendor.bundle.base.css">
+
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="./include/style.css">
+    <!-- Add this link to your HTML head section -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
+
+    <link rel="stylesheet" href="../dist/css/style.min.css">
+
+    <!-- external -->
+    <link href="Table 05_files/css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="Table 05_files/font-awesome.min.css">
+    <link rel="stylesheet" href="Table 05_files/style.css">
+    <!-- endinject -->
+
+
+    <link rel="stylesheet" href="./include/style.css">
+    <link rel="shortcut icon" href="./include/ho_login.png">
+    <link rel="stylesheet" href="./include/exstyle.css">
+
+    <style>
+        table .fw-bolder {
+            font-weight: bolder;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div class="container-scroller">
+
+        <!-- Preloader - style you can find in spinners.css -->
+
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+
+        <!-- partial:partials/_navbar.html -->
+        <header class="topbar" data-navbarbg="skin6">
+            <?php include 'navbar.php' ?>
+        </header>
+
+
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper pt-0 proBanner-padding-top">
+            <!-- partial:partials/_sidebar.html -->
+            <div class="navcantainer d-fixed">
+                <?php include 'sidebar.php' ?>
+            </div>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+
+                    <!-- dash section -->
+
+                    <div class="page-header">
+                        <h3 class="page-title">
+                            <span class="page-title-icon bg-gradient-primary text-white mr-2">
+                                <i class="mdi mdi-pencil menu-icon"></i>
+                            </span> Update Details
+                        </h3>
+                    </div>
+
+                    <!-- Dash data section -->
+
+
+                    <form method="post" action="stud_update.php">
+        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+        <label>Name: <input type="text" name="name" value="<?php echo $row['name']; ?>"></label><br>
+        <label>Registration: <input type="text" name="reg" value="<?php echo $row['reg']; ?>"></label><br>
+        <label>Gender: <input type="text" name="gender" value="<?php echo $row['gender']; ?>"></label><br>
+        <label>Age: <input type="text" name="age" value="<?php echo $row['age']; ?>"></label><br>
+        <label>Email: <input type="text" name="email" value="<?php echo $row['email']; ?>"></label><br>
+        <label>Phone: <input type="text" name="phone" value="<?php echo $row['phone']; ?>"></label><br>
+        <label>Department: <input type="text" name="dept" value="<?php echo $row['dept']; ?>"></label><br>
+        <label>Hostel Name: <input type="text" name="hname" value="<?php echo $row['hname']; ?>"></label><br>
+        <label>Room: <input type="text" name="room" value="<?php echo $row['room']; ?>"></label><br>
+        <input type="submit" value="Update">
+    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./include/vendor.bundle.base.js.download"></script>
+    <script src="./include/Chart.min.js.download"></script>
+    <script src="./include/jquery.cookie.js.download" type="text/javascript"></script>
+    <script src="./include/off-canvas.js.download"></script>
+    <script src="./include/hoverable-collapse.js.download"></script>
+    <script src="./include/misc.js.download"></script>
+    <script src="./include/dashboard.js.download"></script>
+    <script src="./include/todolist.js.download"></script>
+    <script src="../assets/libs/jquery/dist/jquery.min.js "></script>
+    <script src="../assets/libs/popper.js/dist/umd/popper.min.js "></script>
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.min.js "></script>
+
+    <script src="../admin/include/vendor.bundle.base.js.download"></script>
+    <script>
+        function toggleCollapse(event) {
+            event.preventDefault();
+            var target = event.target;
+            var parent = target.closest('.nav-item');
+            var collapse = parent.querySelector('.collapse');
+            var icon = parent.querySelector('.menu-icon');
+
+            if (collapse.style.display === 'none') {
+                collapse.style.display = 'block';
+                icon.classList.add('rotate');
+            } else {
+                collapse.style.display = 'none';
+                icon.classList.remove('rotate');
+            }
+        }
+
+        var collapsedLinks = document.querySelectorAll('.nav-link.collapsed');
+        for (var i = 0; i < collapsedLinks.length; i++) {
+            collapsedLinks[i].addEventListener('click', toggleCollapse);
+        }
+    </script>
+
+    <script>
+        $(".preloader ").fadeOut();
+    </script>
+
+</body>
+
+</html>
+<?php
+    } else {
+        echo "Student request not found.";
+    }
+}
+?>
+
+
